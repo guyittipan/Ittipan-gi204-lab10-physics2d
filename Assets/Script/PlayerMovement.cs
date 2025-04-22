@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    Vector2 moveInput; //walk with force
     public float Speed;         // public variable uses Pascal casing
     public float JumpForce;     // jump force
     public bool IsJumping;      // check if player is in air
 
-    float move;                 // private variable
+    float move;                 
     Rigidbody2D rb2d;
 
     void Start()
@@ -16,10 +17,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        move = Input.GetAxis("Horizontal"); // x-axis input
+        //walk with force
+        moveInput = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
+        rb2d.AddForce (moveInput*Speed);
+
+        //move = Input.GetAxis("Horizontal"); // x-axis input
 
         // move left and right
-        rb2d.linearVelocity = new Vector2(move * Speed, rb2d.linearVelocity.y);
+        //rb2d.linearVelocity = new Vector2(move * Speed, rb2d.linearVelocity.y);
 
         // jump only if not jumping
         if (Input.GetButtonDown("Jump") && !IsJumping)
